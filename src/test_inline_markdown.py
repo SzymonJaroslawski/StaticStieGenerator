@@ -4,6 +4,7 @@ from inline_markdown import (
     extract_markdown_images,
     extract_markdown_links,
     split_nodes_delimeter,
+    text_to_textnodes,
 )
 from textnode import TextNode, TextType
 
@@ -38,3 +39,22 @@ class TestGenerator(unittest.TestCase):
         ]
         extracted = extract_markdown_images(text)
         self.assertEqual(extracted, expected)
+
+    def test_text_to_textnodes(self):
+        text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        nodes = text_to_textnodes(text)
+        expected_nodes = [
+            TextNode("This is ", TextType.Normal),
+            TextNode("text", TextType.Bold),
+            TextNode(" with an ", TextType.Normal),
+            TextNode("italic", TextType.Italic),
+            TextNode(" word and a ", TextType.Normal),
+            TextNode("code block", TextType.Code),
+            TextNode(" and an ", TextType.Normal),
+            TextNode(
+                "obi wan image", TextType.Image, "https://i.imgur.com/fJRm4Vk.jpeg"
+            ),
+            TextNode(" and a ", TextType.Normal),
+            TextNode("link", TextType.Link, "https://boot.dev"),
+        ]
+        self.assertEqual(nodes, expected_nodes)
