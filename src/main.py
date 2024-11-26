@@ -1,9 +1,12 @@
-from textnode import TextNode, TextType
+import fsutils
 
 
 def main():
-    test_node = TextNode("This is a text node", TextType.Bold, "https://www.boot.dev")
-    print(test_node)
+    fsutils.clean_dir("/home/szymon/Programowanie/StaticStieGenerator/public/")
+    fsutils.copy_tree(
+        "/home/szymon/Programowanie/StaticStieGenerator/static/",
+        "/home/szymon/Programowanie/StaticStieGenerator/public/",
+    )
 
 
 if __name__ == "__main__":
