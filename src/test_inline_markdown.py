@@ -3,6 +3,7 @@ import unittest
 from inline_markdown import (
     extract_markdown_images,
     extract_markdown_links,
+    extract_title,
     split_nodes_delimeter,
     text_to_textnodes,
 )
@@ -21,6 +22,16 @@ class TestGenerator(unittest.TestCase):
                 TextNode(" word", TextType.Normal),
             ],
         )
+
+    def test_extract_title_eq(self):
+        title = extract_title("# Hello")
+        expected_title = "Hello"
+        self.assertEqual(title, expected_title)
+
+    def test_extract_title_exception(self):
+        level = "#"
+        for i in range(5):
+            self.assertRaises(Exception, extract_title, f"{level * (i + 2)} Hello")
 
     def test_extract_markdown_links_eq(self):
         text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"

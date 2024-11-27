@@ -82,7 +82,7 @@ def olist_to_html_node(block):
     items = block.split("\n")
     html_items = []
     for item in items:
-        text = item[:3]
+        text = item[3:]
         children = text_to_children(text)
         html_items.append(ParentNode("li", children))
     return ParentNode("ol", html_items)
@@ -132,9 +132,11 @@ def block_to_blocktype(block):
                 return BlockType.Paragraph
         return BlockType.UnorderedList
     if block.startswith("1. "):
-        for i, line in enumerate(lines):
+        i = 1
+        for line in lines:
             if not line.startswith(f"{i}. "):
                 return BlockType.Paragraph
+            i += 1
         return BlockType.OrderedList
     return BlockType.Paragraph
 

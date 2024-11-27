@@ -2,6 +2,15 @@ import re
 from textnode import TextNode, TextType
 
 
+def extract_title(markdown: str):
+    splited = markdown.split("\n")
+    if not splited[0].startswith("#") or splited[0].startswith(
+        ("##", "###", "####", "#####", "######")
+    ):
+        raise Exception("Markdown document should start with 1 (one) #")
+    return splited[0][2:]
+
+
 def text_to_textnodes(text):
     nodes = [TextNode(text, TextType.Normal)]
     nodes = split_nodes_delimeter(nodes, "**", TextType.Bold)
